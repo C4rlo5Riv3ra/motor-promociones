@@ -1,5 +1,5 @@
 from django.db import models
-from catalogs.models import Producto, CategoriaProducto, Empresa, Sucursal, CanalCliente
+from catalogs.models import Articulo, GrupoArticulo, Empresa, Sucursal, CanalCliente
 from promotion_engine.choices import TipoCondicion, TipoAccion
 import uuid
 
@@ -17,8 +17,8 @@ class Promocion(models.Model):
     
     # Condiciones
     tipo_condicion = models.IntegerField(choices=TipoCondicion, default=TipoCondicion.VOLUMEN)
-    productos_aplicables = models.ManyToManyField(Producto, blank=True)
-    categorias_aplicables = models.ManyToManyField(CategoriaProducto, blank=True)
+    articulos_aplicables = models.ManyToManyField(Articulo, blank=True)
+    grupos_aplicables = models.ManyToManyField(GrupoArticulo, blank=True)
     valor_minimo = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     
     # Acciones
@@ -49,11 +49,11 @@ class RangoPromocion(models.Model):
 class BonificacionProducto(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     promocion = models.ForeignKey(Promocion, on_delete=models.CASCADE, related_name='bonificaciones')
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Articulo, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"Bonificación de {self.cantidad} x {self.producto.nombre} para {self.promocion.nombre}"
+        return f"Bonificación de {self.cantidad} x {self.producto.descripcion} para {self.promocion.nombre}"
 
     class Meta:
         db_table = "bonificacion_producto"
@@ -62,11 +62,11 @@ class BonificacionProducto(models.Model):
 class ProductoRequerido(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     promocion = models.ForeignKey(Promocion, on_delete=models.CASCADE, related_name='productos_requeridos')
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    producto = models.ForeignKey(Articulo, on_delete=models.CASCADE)
     cantidad_minima = models.PositiveIntegerField()
 
     def __str__(self):
-        return f"Producto requerido: {self.producto.nombre} para {self.promocion.nombre}"
+        return f"Producto requerido: {self.producto.descripcion} para {self.promocion.nombre}"
 
     class Meta:
         db_table = "producto_requerido"
