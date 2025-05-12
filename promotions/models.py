@@ -1,10 +1,11 @@
 from django.db import models
 from catalogs.models import Producto, CategoriaProducto, Empresa, Sucursal, CanalCliente
 from promotion_engine.choices import TipoCondicion, TipoAccion
+import uuid
 
 # Create your models here.
 class Promocion(models.Model):
-    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     nombre = models.CharField(max_length=200)
     fecha_inicio = models.DateField()
     fecha_fin = models.DateField()
@@ -32,6 +33,7 @@ class Promocion(models.Model):
         ordering = ['id']
 
 class RangoPromocion(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     promocion = models.ForeignKey(Promocion, on_delete=models.CASCADE, related_name='rangos')
     min = models.DecimalField(max_digits=10, decimal_places=2)
     max = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
@@ -45,6 +47,7 @@ class RangoPromocion(models.Model):
         ordering = ['id']
 
 class BonificacionProducto(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     promocion = models.ForeignKey(Promocion, on_delete=models.CASCADE, related_name='bonificaciones')
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
@@ -57,6 +60,7 @@ class BonificacionProducto(models.Model):
         ordering = ['id']
 
 class ProductoRequerido(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     promocion = models.ForeignKey(Promocion, on_delete=models.CASCADE, related_name='productos_requeridos')
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad_minima = models.PositiveIntegerField()
