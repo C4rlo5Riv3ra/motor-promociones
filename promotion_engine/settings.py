@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'promotion_engine.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dbpromotions', # nombre de la base de datos
+        'NAME': 'db_promotions', # nombre de la base de datos
         'USER': 'admin_promotion', # remplazar por el usuario que se creo en postgres
         'PASSWORD': '12345678', # remplazar por el password que se creo en postgres
         'HOST': '127.0.0.1',
