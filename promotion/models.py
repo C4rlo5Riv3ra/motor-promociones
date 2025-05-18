@@ -5,26 +5,26 @@ import uuid
 # Create your models here.
 
 class Promocion(TimeStampedModel):
-  # ... (campos existentes, incluyendo ForeignKey a Empresa, Sucursal, CanalCliente)
-  id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-  nombre = models.CharField(max_length=255)
-  tipo_promocion = models.CharField(max_length=15, choices=TIPO_PROMOCION)
-  tipo_descuento = models.CharField(max_length=15, choices=TIPO_DESCUENTO)
-  empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name='promociones')
-  sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, related_name='promociones')
-  canal = models.ForeignKey(CanalCliente, on_delete=models.CASCADE, related_name='promociones', null=True, blank=True)
-  fecha_inicio = models.DateField()
-  fecha_fin = models.DateField()
-  activa = models.BooleanField(default=True)
+    # ... (campos existentes, incluyendo ForeignKey a Empresa, Sucursal, CanalCliente)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nombre = models.CharField(max_length=255)
+    tipo_promocion = models.CharField(max_length=15, choices=TIPO_PROMOCION)
+    tipo_descuento = models.CharField(max_length=15, choices=TIPO_DESCUENTO)
+    empresa = models.ForeignKey(Empresa, on_delete=models.CASCADE, related_name='promociones')
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, related_name='promociones')
+    canal = models.ForeignKey(CanalCliente, on_delete=models.CASCADE, related_name='promociones', null=True, blank=True)
+    fecha_inicio = models.DateField()
+    fecha_fin = models.DateField()
+    activa = models.BooleanField(default=True)
 
-  class Meta:
-      db_table = "promociones.promocion"
-      verbose_name = "Promoción"
-      verbose_name_plural = "Promociones"
-      ordering = ["-fecha_inicio"]
+    class Meta:
+        db_table = "promociones.promocion"
+        verbose_name = "Promoción"
+        verbose_name_plural = "Promociones"
+        ordering = ["-fecha_inicio"]
 
-  def __str__(self):
-      return self.nombre
+    def __str__(self):
+        return self.nombre
 
 class ReglaPromocion(TimeStampedModel):
     # ... (campos existentes, incluyendo ForeignKey a Promocion y Artículo/Grupo/Línea)
@@ -38,12 +38,12 @@ class ReglaPromocion(TimeStampedModel):
     maximo_cantidad = models.IntegerField(null=True, blank=True)
 
     class Meta:
-      db_table = "promociones.regla_promocion"
-      verbose_name = "Regla de promoción"
-      verbose_name_plural = "Reglas de promoción"
+        db_table = "promociones.regla_promocion"
+        verbose_name = "Regla de promoción"
+        verbose_name_plural = "Reglas de promoción"
 
-      def __str__(self):
-          return f"Regla para {self.promocion.nombre}"
+        def __str__(self):
+            return f"Regla para {self.promocion.nombre}"
 
 class ReglaEscala(TimeStampedModel):
     # ... (campos existentes, incluyendo ForeignKey a Promocion)

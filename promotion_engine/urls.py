@@ -16,7 +16,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.urls import include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/core/', include('core.urls')),        # Si core tiene endpoints
+    path('api/promociones/', include('promotion.urls')),
+    path('api/pedidos/', include('orders.urls')),   # Si orders tiene endpoints
+
 ]

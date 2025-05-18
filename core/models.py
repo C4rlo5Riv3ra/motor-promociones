@@ -38,16 +38,14 @@ class LineaArticulo(TimeStampedModel):
         return self.nombre_linea
 
 class Articulo(TimeStampedModel):
-    articulo_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    codigo_articulo = models.CharField(max_length=25, unique=True)
-    codigo_barras = models.CharField(max_length=25, blank=True, null=True)
+    articulo_id = models.UUIDField(primary_key=True)
+    codigo_articulo = models.CharField(max_length=200)
+    codigo_barras = models.CharField(max_length=200, null=True, blank=True)
     descripcion = models.CharField(max_length=150)
-    presentacion = models.CharField(max_length=100, blank=True, null=True)
-    grupo = models.ForeignKey(GrupoArticulo, on_delete=models.CASCADE, related_name='articulos')
-    linea = models.ForeignKey(LineaArticulo, on_delete=models.CASCADE, related_name='articulos')
-    estado = models.SmallIntegerField(choices=ESTADO_ENTIDADES, default=ESTADO_ENTIDADES.ACTIVO)
-    stock = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    imagen = models.CharField(max_length=255, blank=True, null=True)
+    presentacion = models.CharField(max_length=100, null=True)
+    grupo = models.ForeignKey(GrupoArticulo, on_delete=models.RESTRICT)
+    linea = models.ForeignKey(LineaArticulo, on_delete=models.RESTRICT)
+    stock = models.DecimalField(max_digits=12, decimal_places=2)
 
     class Meta:
         db_table = "productos.articulo"
@@ -61,7 +59,6 @@ class Articulo(TimeStampedModel):
 class CanalCliente(TimeStampedModel):
     canal_id = models.CharField(max_length=3, primary_key=True)
     nombre_canal = models.CharField(max_length=100)
-    activo = models.BooleanField(default=True)
 
     class Meta:
         db_table = "productos.canal_cliente"
