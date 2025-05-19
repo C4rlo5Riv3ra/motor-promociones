@@ -4,8 +4,8 @@ import uuid
 
 # Create your models here.
 class TimeStampedModel(models.Model):  # Clase abstracta para herencia
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(null=True ,blank=True)
+    updated_at = models.DateTimeField(null=True ,blank=True)
     class Meta:
         abstract = True
 

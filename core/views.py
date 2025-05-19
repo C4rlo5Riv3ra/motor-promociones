@@ -22,3 +22,5 @@ def articulos_list(request):
         'articulos': articulos, 
     } 
     return render(request, 'core/articulos/list.html', context)
+
+

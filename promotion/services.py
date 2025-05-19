@@ -1,20 +1,76 @@
-from django.utils import timezone
-from promotion.models import Promocion
+from datetime import date
+from core.models import Articulo
+from .models import Promotion
 
-def calcular_promociones(pedido_data):
-    # 1. Obtener todas las promociones activas y válidas por fecha
-    promociones = Promocion.objects.filter(
-        fecha_inicio__lte=timezone.now(),
-        fecha_fin__gte=timezone.now()
+def evaluate_promotions(pedido):
+    hoy = date.today()
+    promociones_aplicables = []
+
+    items = pedido["items"]
+    articulo_ids = [item["articulo_id"] for item in items]
+    articulos = Articulo.objects.in_bulk(articulo_ids)
+
+    promociones = Promotion.objects.filter(
+        start_date__lte=hoy,
+        end_date__gte=hoy,
+        empresa_id=pedido["empresa_id"],
+        sucursal_id=pedido["sucursal_id"],
+        canal_cliente_id=pedido["canal_id"]
     )
 
-    # 2. Verificar canal del cliente, empresa/sucursal
+    for promo in promociones:
+        for regla in promo.rules.all():
+            valor = 0
 
-    # 3. Aplicar reglas (volumen, monto, escalas, combinadas)
-    for promocion in promociones:
-        # Lógica para aplicar reglas de promoción
-        pass
+            for item in items:
+                articulo = articulos[item["articulo_id"]]
+                if regla.articulo and articulo != regla.articulo:
+                    continue
+                if regla.linea and articulo.linea != regla.linea:
+                    continue
+                if regla.grupo and articulo.grupo != regla.grupo:
+                    continue
 
-    # 4. Retornar lista de promociones aplicables con sus beneficios
+                if regla.rule_type == "quantity":
+                    valor += item["cantidad"]
+                elif regla.rule_type == "amount":
+                    valor += item["cantidad"] * item["precio_unitario"]
 
-    return []
+            # Evaluar escalas primero
+            if regla.tiers.exists():
+                for tier in regla.tiers.all():
+                    if valor >= tier.min_value and (tier.max_value is None or valor <= tier.max_value):
+                        promociones_aplicables.append({
+                            "promotion": promo.name,
+                            "description": promo.description,
+                            "rewards": [{
+                                "type": tier.reward_type,
+                                "product_code": tier.product_code,
+                                "quantity": tier.quantity,
+                                "discount": tier.discount_percent
+                            }]
+                        })
+                        break
+            else:
+                cumple = False
+                if regla.rule_type == "quantity" and regla.min_quantity and valor >= regla.min_quantity:
+                    cumple = True
+                if regla.rule_type == "amount" and regla.min_amount and valor >= regla.min_amount:
+                    cumple = True
+
+                if cumple:
+                    recompensas = promo.rewards.all()
+                    promociones_aplicables.append({
+                        "promotion": promo.name,
+                        "description": promo.description,
+                        "rewards": [
+                            {
+                                "type": r.reward_type,
+                                "product_code": r.product_code,
+                                "quantity": r.quantity,
+                                "discount": r.discount_percent
+                            } for r in recompensas
+                        ]
+                    })
+
+    return promociones_aplicables

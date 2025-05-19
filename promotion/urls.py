@@ -1,8 +1,6 @@
 from django.urls import path
-# primero hay que importar las vistas que se van a usar
-from views import EvaluarPromocionesView, PromocionListAPIView
+from .views import EvaluarPromocionesView
 
 urlpatterns = [
-    path('promociones/calcular/', EvaluarPromocionesView.as_view(), name='calcular-promociones'),
-    path('promociones/', PromocionListAPIView.as_view(), name='listar-promociones'),
+    path('evaluar/', EvaluarPromocionesView.as_view(), name='evaluar-promociones'),
 ]
