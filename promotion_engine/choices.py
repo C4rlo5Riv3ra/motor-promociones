@@ -9,3 +9,13 @@ class TIPO_IDENTIFICACION(models.TextChoices):
     RUC = 'R', 'RUC',
     CE = 'C', 'CE',
     PASAPORTE = 'P', 'Pasaporte'
+
+class TipoPromocion(models.TextChoices):
+    BONIFICACION = 'BONI', 'Bonificación'
+    DESCUENTO = 'DESC', 'Descuento'
+    COMBINADA = 'COMB', 'Combinada'
+
+class TipoCondicion(models.TextChoices):
+    MONTO = 'MONTO', 'Por Monto'
+    CANTIDAD = 'CANTIDAD', 'Por Cantidad'
+    COMBINADA = 'COMBI', 'Combinada'

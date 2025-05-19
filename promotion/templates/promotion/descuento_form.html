@@ -1,0 +1,7 @@
+{% extends 'promotion/base.html' %}
+{% block title %}Descuento{% endblock %}
+{% block content %}
+<h2>Nuevo Descuento</h2>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-success">Guardar</button></form>
+<a href="{% url 'promocion_list' %}" class="btn btn-secondary mt-2">⬅ Volver</a>
+{% endblock %}

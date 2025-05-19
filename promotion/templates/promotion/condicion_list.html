@@ -1,0 +1,28 @@
+{% extends 'promotion/base.html' %}
+{% block title %}Condiciones{% endblock %}
+{% block content %}
+<h2>Condiciones de la Promoción: {{ promocion.nombre }}</h2>
+<a href="{% url 'condicion_create' promocion.promocion_id %}" class="btn btn-primary mb-3">
+  ➕ Nueva Condición
+</a>
+
+<ul class="list-group">
+  {% for condicion in condiciones %}
+  <li class="list-group-item">
+    {{ condicion.articulo|default:condicion.linea }}
+    {% if condicion.monto_minimo %} - Monto mínimo: {{ condicion.monto_minimo }}{% endif %}
+    {% if condicion.cantidad_minima %} - Cantidad mínima: {{ condicion.cantidad_minima }}{% endif %}
+
+    <!-- Formulario para eliminar -->
+    <form method="post" action="{% url 'condicion_delete' condicion.pk %}" style="display:inline" onsubmit="return confirm('¿Está seguro que desea eliminar esta condición?');">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-sm btn-danger">🗑️ Eliminar</button>
+    </form>
+
+    <a href="{% url 'condicion_update' condicion.pk %}" class="btn btn-sm btn-warning float-end ms-2">✏️</a>
+  </li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'promocion_list' %}" class="btn btn-secondary mt-3">⬅ Volver</a>
+{% endblock %}

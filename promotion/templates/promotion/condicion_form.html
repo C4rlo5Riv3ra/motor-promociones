@@ -1,0 +1,9 @@
+{% extends 'promotion/base.html' %}
+{% block title %}Condición{% endblock %}
+{% block content %}
+<h2>{{ form.instance.pk|yesno:"Editar Condición,Nueva Condición" }}</h2>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button class="btn btn-success">Guardar</button></form>
+<a href="{% url 'condicion_list' promocion.pk %}"
+   class="btn btn-secondary mt-2">⬅ Volver</a>
+
+{% endblock %}

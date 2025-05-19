@@ -1,0 +1,17 @@
+{% extends 'promotion/base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2>🎛️ Panel de Gestión de Promociones</h2>
+
+<ul class="list-group">
+  <li class="list-group-item">
+    <a href="{% url 'promocion_list' %}">📋 Gestión de Promociones</a>
+  </li>
+
+  <li class="list-group-item">
+    <a href="{% url 'evaluar_pedido' %}">🧪 Simular Pedido</a>
+  </li>
+</ul>
+{% endblock %}

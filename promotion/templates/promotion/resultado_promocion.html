@@ -1,0 +1,37 @@
+{% extends 'promotion/base.html' %}
+{% block title %}Resultados{% endblock %}
+{% block content %}
+<h2>Promociones Aplicadas</h2>
+
+{% if promociones_aplicadas %}
+  {% for promo in promociones_aplicadas %}
+    <div class="card mb-3">
+      <div class="card-header">
+        <strong>{{ promo.promocion.nombre }}</strong>
+      </div>
+      <div class="card-body">
+        {% if promo.bonificaciones %}
+          <h5>Bonificaciones:</h5>
+          <ul>
+            {% for b in promo.bonificaciones %}
+              <li>{{ b.cantidad }} x {{ b.articulo_bonificado.descripcion }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% if promo.descuentos %}
+          <h5>Descuentos:</h5>
+          <ul>
+            {% for d in promo.descuentos %}
+              <li>{{ d.porcentaje }}% aplicado</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+{% else %}
+  <p>No se aplicaron promociones para este pedido.</p>
+{% endif %}
+
+<a href="{% url 'evaluar_pedido' %}" class="btn btn-secondary">Simular otro pedido</a>
+{% endblock %}

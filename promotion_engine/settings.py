@@ -37,9 +37,41 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django.contrib.sites',
+
+    # Apps de autenticación
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
     'core',
     'promotion',
+
+    'rest_framework',
+    'django_filters',
+    'rest_framework_simplejwt.token_blacklist',
 ]
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/dashboard/'
+ACCOUNT_LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+# Django REST Framework config
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ]
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -49,6 +81,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
+
 ]
 
 ROOT_URLCONF = 'promotion_engine.urls'
@@ -78,7 +112,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbpromotions', # nombre de la base de datos
-        'USER': 'admin_promotion', # remplazar por el usuario que se creo en postgres
+        'USER': 'admin_promotions', # remplazar por el usuario que se creo en postgres
         'PASSWORD': '12345678', # remplazar por el password que se creo en postgres
         'HOST': '127.0.0.1',
         'PORT': '5432',

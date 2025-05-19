@@ -1,0 +1,10 @@
+{% extends 'promotion/base.html' %}
+{% block title %}Nuevo Pedido{% endblock %}
+{% block content %}
+<h2>Simular Pedido de Cliente</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-primary" type="submit">Evaluar Promoción</button>
+</form>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'promotion/base.html' %}
+{% block title %}Promociones{% endblock %}
+{% block content %}
+<h2>Promociones</h2>
+<a href="{% url 'promocion_create' %}" class="btn btn-primary mb-2">➕ Nueva Promoción</a>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Tipo</th>
+      <th>Canal</th>
+      <th>Vigencia</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for promocion in promociones %}
+    <tr>
+      <td>{{ promocion.nombre }}</td>
+      <td>{{ promocion.get_tipo_promocion_display }}</td>
+      <td>{{ promocion.canal_cliente }}</td>
+      <td>{{ promocion.fecha_inicio }} - {{ promocion.fecha_fin }}</td>
+      <td>
+        <a href="{% url 'promocion_update' promocion.pk %}" class="btn btn-sm btn-warning">✏️</a>
+
+        <form method="post" action="{% url 'promocion_delete' promocion.pk %}" style="display:inline" onsubmit="return confirm('¿Está seguro que desea eliminar esta promoción?');">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-danger">🗑️</button>
+        </form>
+
+        <a href="{% url 'condicion_list' promocion.promocion_id %}" class="btn btn-outline-primary">⚙️ Ver condiciones</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
