@@ -52,25 +52,38 @@ def evaluate_promotions(pedido):
                         })
                         break
             else:
-                cumple = False
                 if regla.rule_type == "quantity" and regla.min_quantity and valor >= regla.min_quantity:
-                    cumple = True
-                if regla.rule_type == "amount" and regla.min_amount and valor >= regla.min_amount:
-                    cumple = True
+                    veces = int(valor // regla.min_quantity)
+                elif regla.rule_type == "amount" and regla.min_amount and valor >= regla.min_amount:
+                    veces = int(valor // regla.min_amount)
+                else:
+                    veces = 0
 
-                if cumple:
+                if veces > 0:
                     recompensas = promo.rewards.all()
+                    recompensas_proporcionales = []
+
+                    for r in recompensas:
+                        if r.reward_type == "product":
+                            recompensas_proporcionales.append({
+                                "type": r.reward_type,
+                                "product_code": r.product_code,
+                                "quantity": r.quantity * veces if r.quantity else 0,
+                                "discount": None
+                            })
+                        elif r.reward_type == "discount":
+                            recompensas_proporcionales.append({
+                                "type": r.reward_type,
+                                "product_code": None,
+                                "quantity": None,
+                                "discount": float(r.discount_percent)  # descuento no se multiplica
+                            })
+
                     promociones_aplicables.append({
                         "promotion": promo.name,
                         "description": promo.description,
-                        "rewards": [
-                            {
-                                "type": r.reward_type,
-                                "product_code": r.product_code,
-                                "quantity": r.quantity,
-                                "discount": r.discount_percent
-                            } for r in recompensas
-                        ]
+                        "rewards": recompensas_proporcionales
                     })
+
 
     return promociones_aplicables
