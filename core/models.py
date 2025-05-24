@@ -3,6 +3,7 @@ from promotion_engine.choices import ESTADO_ENTIDADES, TIPO_IDENTIFICACION
 import uuid
 
 # Create your models here.
+
 class TimeStampedModel(models.Model):  # Clase abstracta para herencia
     created_at = models.DateTimeField(null=True ,blank=True)
     updated_at = models.DateTimeField(null=True ,blank=True)
@@ -10,6 +11,7 @@ class TimeStampedModel(models.Model):  # Clase abstracta para herencia
         abstract = True
 
 class GrupoArticulo(TimeStampedModel):
+
     grupo_id = models.UUIDField(primary_key=True)
     codigo_grupo = models.CharField(max_length=5, null=False)
     nombre_grupo = models.CharField(max_length=150, null=False)
@@ -22,7 +24,9 @@ class GrupoArticulo(TimeStampedModel):
     def __str__(self):
         return self.nombre_grupo
 
+
 class LineaArticulo(TimeStampedModel):
+
     linea_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     codigo_linea = models.CharField(max_length=10, null=False)
     grupo = models.ForeignKey(GrupoArticulo, on_delete=models.CASCADE, related_name='lineas')
@@ -37,6 +41,7 @@ class LineaArticulo(TimeStampedModel):
     def __str__(self):
         return self.nombre_linea
 
+
 class Articulo(TimeStampedModel):
     articulo_id = models.UUIDField(primary_key=True)
     codigo_articulo = models.CharField(max_length=200)
@@ -47,6 +52,7 @@ class Articulo(TimeStampedModel):
     linea = models.ForeignKey(LineaArticulo, on_delete=models.RESTRICT)
     stock = models.DecimalField(max_digits=12, decimal_places=2)
 
+
     class Meta:
         db_table = "productos.articulo"
         verbose_name = "Artículo"
@@ -55,6 +61,7 @@ class Articulo(TimeStampedModel):
 
     def __str__(self):
         return f"{self.codigo_articulo} - {self.descripcion}"
+
 
 class CanalCliente(TimeStampedModel):
     canal_id = models.CharField(max_length=3, primary_key=True)
@@ -67,6 +74,7 @@ class CanalCliente(TimeStampedModel):
 
     def __str__(self):
         return self.nombre_canal
+
 
 class Cliente(TimeStampedModel):
     cliente_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -86,6 +94,7 @@ class Cliente(TimeStampedModel):
         unique_together = [['tipo_identificacion', 'nro_identificacion']]
 
     def __str__(self):
+
         return f"{self.nombres} ({self.get_tipo_identificacion_display()}: {self.nro_identificacion})"
 
 class Empresa(TimeStampedModel):
