@@ -8,6 +8,7 @@ from orders.models import Pedido, ItemPedido
 from core.models import Cliente, Articulo
 from promotion.models import Promotion
 
+from decimal import Decimal
 
 class EvaluarPromocionesView(APIView):
     def post(self, request):
@@ -24,15 +25,16 @@ class EvaluarPromocionesView(APIView):
             return Response({"error": "No hay cliente en la base de datos."}, status=status.HTTP_400_BAD_REQUEST)
 
         # Subtotal sin descuentos
-        subtotal = sum(item["cantidad"] * item["precio_unitario"] for item in data["items"])
+        subtotal = sum(Decimal(item["cantidad"]) * item["precio_unitario"]for item in data["items"])
+
 
         # Calcular descuento total (porcentaje aplicado)
         descuento_total = 0
         for promo in promociones:
             for reward in promo["rewards"]:
-                if reward["type"] == "discount" and reward["discount"]:
-                    porcentaje = float(reward["discount"])
-                    descuento_total += (porcentaje / 100.0) * subtotal
+                if reward["tipo"] == "discount" and reward["discount"]:
+                    porcentaje = Decimal(str(reward["discount"]))
+                    descuento_total += (porcentaje / Decimal('100')) * subtotal
 
         # Crear pedido
         pedido = Pedido.objects.create(
@@ -68,7 +70,7 @@ class EvaluarPromocionesView(APIView):
                 continue
 
             for reward in promo["rewards"]:
-                if reward["type"] == "product" and reward["product_code"]:
+                if reward["tipo"] == "product" and reward["product_code"]:
                     try:
                         articulo_bonificado = Articulo.objects.get(codigo_articulo=reward["product_code"])
                         ItemPedido.objects.create(
@@ -85,7 +87,13 @@ class EvaluarPromocionesView(APIView):
                         continue
 
         return Response({
-            "mensaje": "Pedido creado correctamente.",
-            "pedido_id": str(pedido.pedido_id),
-            "promociones_aplicadas": promociones
+            "mensaje": "El pedido fue registrado correctamente.",
+            "id_pedido": str(pedido.pedido_id),
+            "promociones_aplicadas": [
+                {
+                    "promocion": p["promotion"],
+                    "descripcion": p["description"],
+                    "beneficios": p["rewards"]
+                } for p in promociones
+            ]
         }, status=status.HTTP_201_CREATED)
