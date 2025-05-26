@@ -4,7 +4,6 @@ from core.models import Articulo
 from promotion.models import Promotion
 
 def clean_reward(r):
-    # Normalizamos tipo para evitar confusiones
     tipo = r.get("tipo")
     if tipo in ["producto", "product"]:
         try:
@@ -29,9 +28,7 @@ def clean_reward(r):
             "tipo": "descuento",
             "porcentaje": r.get("porcentaje") or 0.0
         }
-    else:
-        # Si el tipo no es reconocido, devolver algo neutro o None para evitar errores
-        return None
+    return None
 
 def evaluate_promotions(pedido):
     hoy = date.today()
@@ -51,9 +48,40 @@ def evaluate_promotions(pedido):
     )
 
     for promo in promociones:
-        for regla in promo.rules.all():
-            valor = Decimal("0")
+        rules = list(promo.rules.all())
 
+        # --- COMBO ---
+        if any(r.rule_type == "combo" for r in rules):
+            combo_rules = [r for r in rules if r.rule_type == "combo"]
+            required_ids = set(r.articulo_id for r in combo_rules)
+            ids_en_pedido = set(
+                articulos.get(item["articulo_id"]).articulo_id
+                for item in items if item["articulo_id"] in articulos
+            )
+
+            if required_ids.issubset(ids_en_pedido):
+                recompensas_combo = []
+                for r in promo.rewards.all():
+                    recompensa = {
+                        "tipo": "producto" if r.reward_type == "product" else "descuento",
+                        "codigo": r.product_code if r.reward_type == "product" else None,
+                        "cantidad": r.quantity if r.reward_type == "product" else None,
+                        "porcentaje": float(r.discount_percent) if r.reward_type == "discount" else None
+                    }
+                    cleaned = clean_reward(recompensa)
+                    if cleaned:
+                        recompensas_combo.append(cleaned)
+
+                promociones_aplicables.append({
+                    "promotion": promo.name,
+                    "description": promo.description,
+                    "rewards": recompensas_combo
+                })
+            continue  # ya evaluado
+
+        # --- CANTIDAD / MONTO + TIERS ---
+        for regla in rules:
+            valor = Decimal("0")
             for item in items:
                 articulo = articulos.get(item["articulo_id"])
                 if not articulo:
@@ -70,6 +98,7 @@ def evaluate_promotions(pedido):
                 elif regla.rule_type == "amount":
                     valor += Decimal(item["cantidad"]) * Decimal(item["precio_unitario"])
 
+            # --- Escalas (tiers) ---
             if regla.tiers.exists():
                 tiers_aplicables = [
                     tier for tier in regla.tiers.order_by("min_value")
@@ -94,34 +123,8 @@ def evaluate_promotions(pedido):
                         "description": promo.description,
                         "rewards": rewards_cleaned
                     })
-
-                elif regla.rule_type == "combo":
-                    combo_rules = promo.rules.filter(rule_type="combo")
-                    required_articulos_ids = set(combo_rules.values_list("articulo_id", flat=True))
-                    articulos_en_pedido_ids = set(articulos.get(item["articulo_id"]).articulo_id for item in items if item["articulo_id"] in articulos)
-
-                    if required_articulos_ids.issubset(articulos_en_pedido_ids):
-                        recompensas = promo.rewards.all()
-                        recompensas_combo = []
-
-                        for r in recompensas:
-                            recompensa = {
-                                "tipo": "producto" if r.reward_type == "product" else "descuento",
-                                "codigo": r.product_code if r.reward_type == "product" else None,
-                                "cantidad": r.quantity if r.reward_type == "product" else None,
-                                "porcentaje": float(r.discount_percent) if r.reward_type == "discount" else None
-                            }
-                            cleaned = clean_reward(recompensa)
-                            if cleaned:
-                                recompensas_combo.append(cleaned)
-
-                        promociones_aplicables.append({
-                            "promotion": promo.name,
-                            "description": promo.description,
-                            "rewards": recompensas_combo
-                        })
             else:
-                
+                # --- Sin tiers: aplicar promoción estándar proporcional ---
                 if regla.rule_type == "quantity" and regla.min_quantity and valor >= regla.min_quantity:
                     veces = int(valor // regla.min_quantity)
                 elif regla.rule_type == "amount" and regla.min_amount and valor >= regla.min_amount:
@@ -130,10 +133,8 @@ def evaluate_promotions(pedido):
                     veces = 0
 
                 if veces > 0:
-                    recompensas = promo.rewards.all()
                     recompensas_proporcionales = []
-
-                    for r in recompensas:
+                    for r in promo.rewards.all():
                         recompensa = {
                             "tipo": "producto" if r.reward_type == "product" else "descuento",
                             "codigo": r.product_code if r.reward_type == "product" else None,
