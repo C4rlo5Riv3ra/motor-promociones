@@ -1,0 +1,581 @@
+{
+	"info": {
+		"_postman_id": "bbefa283-53b1-4364-9b47-56781229506f",
+		"name": "API_JSON_Grupo_06",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44893047",
+		"_collection_link": "https://chuquix.postman.co/workspace/Juan-Carlos's-Workspace~2d828332-7cdd-4989-83aa-13ed4c486588/collection/44893047-bbefa283-53b1-4364-9b47-56781229506f?action=share&source=collection_link&creator=44893047"
+	},
+	"item": [
+		{
+			"name": "CASO 1",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"F18B8E77-57A5-46E9-AEA6-4760BBEA8CEA\",\n      \"cantidad\": 100,\n      \"precio_unitario\": 20.0\n    }\n  ]\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASO 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"7C2C0BB9-C479-4EB9-875E-8753BE82D421\",\n      \"cantidad\": 3,\n      \"precio_unitario\": 50.0\n    }\n  ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"COB\",\n  \"items\": [\n    {\n      \"articulo_id\": \"22D0400F-3649-4C4C-BC36-DC455A4F1278\",\n      \"cantidad\": 80,\n      \"precio_unitario\": 20.0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 4",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"82DCAB85-DEBE-4160-A931-CDD59C35A403\",\n      \"cantidad\": 10,\n      \"precio_unitario\": 20.0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASO 5",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"DB365018-1496-47B2-8196-7AA8693B24BE\",\n      \"cantidad\": 10,\n      \"precio_unitario\": 20.00\n    },\n    {\n      \"articulo_id\": \"8BAED8E2-F24B-4165-9C1F-C409B4BCE3FE\",\n      \"cantidad\": 5,\n      \"precio_unitario\": 40.00\n    }\n  ]\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 6",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Promotion</th>\r",
+							"        <th>Description</th>\r",
+							"        <th>Benefits</th>\r",
+							"    </tr>\r",
+							"    \r",
+							"    {{#each response.promociones_aplicadas}}\r",
+							"        <tr>\r",
+							"            <td>{{promocion}}</td>\r",
+							"            <td>{{descripcion}}</td>\r",
+							"            <td>\r",
+							"                <ul>\r",
+							"                    {{#each beneficios}}\r",
+							"                        <li>{{tipo}}: {{porcentaje}}%</li>\r",
+							"                    {{/each}}\r",
+							"                </ul>\r",
+							"            </td>\r",
+							"        </tr>\r",
+							"    {{/each}}\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()}\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"FEFD3E4B-BFFE-4DB0-9134-955E1C2E3BDB\",\n      \"cantidad\": 100,\n      \"precio_unitario\": 20.0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 7",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"841790D1-4027-4A71-8921-DCEB13712C44\",\n      \"cantidad\": 80,\n      \"precio_unitario\": 20.0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 8",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"8A8197E8-8BBF-4AA5-9646-B20D9E3512EA\",\n      \"cantidad\": 110,\n      \"precio_unitario\": 20.0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASO 9",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"<style type=\"text/css\">\r",
+							"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+							"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+							"    .tftable tr {background-color:#ffffff;}\r",
+							"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+							"    .tftable tr:hover {background-color:#e0ffff;}\r",
+							"</style>\r",
+							"\r",
+							"<table class=\"tftable\" border=\"1\">\r",
+							"    <tr>\r",
+							"        <th>Mensaje</th>\r",
+							"        <th>ID Pedido</th>\r",
+							"    </tr>\r",
+							"    <tr>\r",
+							"        <td>{{response.mensaje}}</td>\r",
+							"        <td>{{response.id_pedido}}</td>\r",
+							"    </tr>\r",
+							"</table>\r",
+							"`;\r",
+							"\r",
+							"function constructVisualizerPayload() {\r",
+							"    return {response: pm.response.json()}\r",
+							"}\r",
+							"\r",
+							"pm.visualizer.set(template, constructVisualizerPayload());"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"5CBF7848-9619-4EC3-B3A8-18C8D7DB6340\",\n      \"cantidad\": 150,\n      \"precio_unitario\": 22.0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASE 10",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"E65BA931-9DBE-4D86-AEF1-31280F4D8073\",\n      \"cantidad\": 540,\n      \"precio_unitario\": 20.0\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASO 11",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"empresa_id\": \"01\",\r\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\r\n  \"canal_id\": \"MAY\",\r\n  \"items\": [\r\n    {\r\n      \"articulo_id\": \"6C5B702B-E68A-4ECA-A6CF-5E1B5AD899F1\",\r\n      \"cantidad\": 100,\r\n      \"precio_unitario\": 120.0\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASO 12",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"empresa_id\": \"01\",\r\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\r\n  \"canal_id\": \"MAY\",\r\n  \"items\": [\r\n    {\r\n      \"articulo_id\": \"3B3F63FE-145F-4FFB-96D1-73DEA3B2D3B2\",\r\n      \"cantidad\": 24,\r\n      \"precio_unitario\": 10.0\r\n    },\r\n    {\r\n      \"articulo_id\": \"B2CD255E-5F73-4072-81A0-111B73D3E8B1\",\r\n      \"cantidad\": 24,\r\n      \"precio_unitario\": 10.0\r\n    },\r\n    {\r\n      \"articulo_id\": \"4E9E6568-B05C-4456-BCDC-21484E10C4C4\",\r\n      \"cantidad\": 24,\r\n      \"precio_unitario\": 10.0\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CASO 13",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"empresa_id\": \"01\",\n  \"sucursal_id\": \"9da1061d-7f32-4e5c-a1ff-dbd397638291\",\n  \"canal_id\": \"MAY\",\n  \"items\": [\n    {\n      \"articulo_id\": \"ABC2668E-B621-48BD-8FD2-C20EDEB80BC5\", \n      \"cantidad\": 1,\n      \"precio_unitario\": 40.00\n    },\n    {\n      \"articulo_id\": \"54E5C811-16CA-4642-8325-AC00FE244ED5\",\n      \"cantidad\": 1,\n      \"precio_unitario\": 8.00\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/evaluar/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"evaluar",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LISTAR_PEDIDOS",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/promociones/pedidos/?promocion=Detergente",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"promociones",
+						"pedidos",
+						""
+					],
+					"query": [
+						{
+							"key": "promocion",
+							"value": "Detergente"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -7,6 +7,7 @@ from promotion.models import Promotion
 from .serializer import PedidoSerializer
 from .services import evaluate_promotions
 from decimal import Decimal
+from datetime import datetime
 import uuid
 
 class EvaluarPromocionesView(APIView):
@@ -71,14 +72,14 @@ class EvaluarPromocionesView(APIView):
         for promo in promociones:
             if not promo:
                 continue
-            promo_obj = Promotion.objects.filter(name=promo.get("promotion")).first()
+            promo_obj = Promotion.objects.filter(name=promo.get("promotion")).first()  # buscar promocion
             if promo_obj:
-                pedido.promociones_aplicadas.add(promo_obj)
+                pedido.promociones_aplicadas.add(promo_obj)  # agregar promocion a pedido
 
-            for beneficio in promo.get("rewards", []):
-                if beneficio and beneficio.get("tipo") == "producto" and beneficio.get("codigo"):
-                    articulo_bonificado = Articulo.objects.filter(codigo_articulo=beneficio["codigo"]).first()
-                    if articulo_bonificado:
+            for beneficio in promo.get("rewards", []):  # recorrer beneficios
+                if beneficio and beneficio.get("tipo") == "producto" and beneficio.get("codigo"):  # si es producto y tiene codigo
+                    articulo_bonificado = Articulo.objects.filter(codigo_articulo=beneficio["codigo"]).first()  # buscar articulo
+                    if articulo_bonificado:  # si existe
                         ItemPedido.objects.create(
                             item_id=uuid.uuid4(),
                             pedido_id=pedido,
@@ -107,3 +108,69 @@ class EvaluarPromocionesView(APIView):
             "id_pedido": str(pedido.pedido_id),
             "promociones_aplicadas": promociones_response
         }, status=status.HTTP_201_CREATED)
+    
+
+class ListaPedidosView(APIView):
+    def get(self, request):
+        pedidos = Pedido.objects.select_related('cliente')\
+            .prefetch_related('promociones_aplicadas', 'itemp_pedido__articulo_id')
+
+        # Filtros por cliente, fechas y promoción
+        cliente_id = request.GET.get("cliente_id")
+        fecha_inicio = request.GET.get("fecha_inicio")
+        fecha_fin = request.GET.get("fecha_fin")
+        promocion_nombre = request.GET.get("promocion")  # puede ser nombre exacto o parte
+
+        if cliente_id:
+            pedidos = pedidos.filter(cliente_id=cliente_id)
+
+        if fecha_inicio:
+            try:
+                fecha_inicio = datetime.strptime(fecha_inicio, "%Y-%m-%d").date()
+                pedidos = pedidos.filter(pedido_id__date__gte=fecha_inicio)
+            except ValueError:
+                return Response({"error": "Formato de fecha_inicio inválido. Use YYYY-MM-DD."}, status=400)
+
+        if fecha_fin:
+            try:
+                fecha_fin = datetime.strptime(fecha_fin, "%Y-%m-%d").date()
+                pedidos = pedidos.filter(pedido_id__date__lte=fecha_fin)
+            except ValueError:
+                return Response({"error": "Formato de fecha_fin inválido. Use YYYY-MM-DD."}, status=400)
+
+        if promocion_nombre:
+            pedidos = pedidos.filter(promociones_aplicadas__name__icontains=promocion_nombre).distinct()
+
+        resultado = []
+        for pedido in pedidos:
+            articulos = []
+            for item in pedido.itemp_pedido.all():
+                articulos.append({
+                    "codigo": item.articulo_id.codigo_articulo,
+                    "descripcion": item.articulo_id.descripcion,
+                    "cantidad": item.cantidad,
+                    "precio_unitario": float(item.precio_unitario),
+                    "total": float(item.total),
+                    "es_bonificacion": item.es_bonificacion
+                })
+
+            promociones = [
+                {
+                    "nombre": promo.name,
+                    "descripcion": promo.description
+                }
+                for promo in pedido.promociones_aplicadas.all()
+            ]
+
+            resultado.append({
+                "id_pedido": str(pedido.pedido_id),
+                "nro_pedido": pedido.nro_pedido,
+                "cliente": pedido.cliente.nombres,
+                "importe": float(pedido.importe),
+                "descuento_aplicado": float(pedido.descuento_aplicado),
+                "monto_total": float(pedido.monto_total),
+                "promociones": promociones,
+                "articulos": articulos
+            })
+
+        return Response(resultado, status=status.HTTP_200_OK)
