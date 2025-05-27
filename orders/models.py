@@ -1,11 +1,11 @@
 from django.db import models
-from core.models import TimeStampedModel ,Cliente, Articulo
+from core.models import Cliente, Articulo
 from promotion.models import Promotion
 from promotion_engine.choices import ESTADO_ENTIDADES
 
 # Create your models here.
 
-class Pedido(TimeStampedModel):
+class Pedido(models.Model):
     pedido_id = models.UUIDField(primary_key=True)
     nro_pedido = models.IntegerField(null=False)
     importe = models.DecimalField(max_digits=12, decimal_places=2, null=False)
@@ -22,7 +22,7 @@ class Pedido(TimeStampedModel):
         db_table = 'promociones.pedido'
         ordering = ['pedido_id']
 
-class ItemPedido(TimeStampedModel):
+class ItemPedido(models.Model):
     item_id = models.UUIDField(primary_key=True)
     pedido_id = models.ForeignKey(Pedido, on_delete=models.RESTRICT, null=False, related_name='itemp_pedido', db_column='pedido_id')
     articulo_id = models.ForeignKey(Articulo, on_delete=models.RESTRICT, null=False, related_name='itemp_articulo', db_column='articulo_id')
