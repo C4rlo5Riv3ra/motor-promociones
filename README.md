@@ -6,6 +6,8 @@
 - 👨‍🎓Zeña Vasquez Frank Gianpier
 - 👨‍🎓Rodrigo Guerrero Jhordy Arnold
 
+
+
 ### Crear un Entorno Virtual para Python
 
 ```bash
